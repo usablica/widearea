@@ -1,0 +1,160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>WideArea - Better Textarea</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Create expandable textarea and write large amount of text easily">
+    <meta name="author" content="Afshin Mehrabani (@afshinmeh)">
+
+    <!-- CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="widearea.js"></script>
+    <link href="widearea.css" rel="stylesheet">
+    <style type="text/css">
+
+      /* Sticky footer styles
+      -------------------------------------------------- */
+
+      html,
+      body {
+        height: 100%;
+        /* The html and body elements cannot have any padding or margin. */
+      }
+
+      textarea {
+        height: 100px;
+        width:100%;
+        max-width: 100%;
+        box-sizing:border-box;
+        margin:0;
+        border: 1px solid #ddd;
+        border-radius: 0;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        resize: none;
+      }
+
+      #widearea-container {
+        border: 5px solid #eee;
+        border-radius: 2px;
+        box-shadow: 0px 1px 1px #ddd;
+      }
+
+      /* Wrapper for page content to push down footer */
+      #wrap {
+        min-height: 100%;
+        height: auto !important;
+        height: 100%;
+        /* Negative indent footer by it's height */
+        margin: 0 auto -60px;
+      }
+
+      /* Set the fixed height of the footer here */
+      #push,
+      #footer {
+        height: 60px;
+      }
+      #footer {
+        background-color: #f5f5f5;
+      }
+
+      /* Custom page CSS
+      -------------------------------------------------- */
+      /* Not required for template or sticky footer method. */
+
+      .container {
+        width: auto;
+        max-width: 680px;
+      }
+      .container .credit {
+        margin: 20px 0;
+      }
+      .detail-widearea {
+        margin-top: 50px;
+        opacity: 0.4;
+        -webkit-transition: all 0.2s ease-out;
+        -moz-transition: all 0.2s ease-out;
+        -ms-transition: all 0.2s ease-out;
+        -o-transition: all 0.2s ease-out;
+        transition: all 0.2s ease-out;
+      }
+      .detail-widearea:hover {
+        opacity: 1;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div id="wrap">
+      <div class="container">
+        <div class="page-header">
+          <h1 style="font-weight: normal;" class="pull-left"><strong>Wide</strong>Area</h1>
+
+        <div style="margin-top: 22px;float: left;margin-left: 9px;">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-url="http://usablica.github.com/widearea/">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+
+<!-- Place this tag where you want the +1 button to render. -->
+<div class="g-plusone" data-size="medium" data-href="http://usablica.github.com/widearea/"></div>
+
+<!-- Place this tag after the last +1 button tag. -->
+<script type="text/javascript">
+  (function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+  })();
+</script>
+
+
+        </div>
+
+          <ul class="nav nav-pills pull-right" style="padding-top: 11px;margin-bottom: 0;">
+            <li><a href="https://github.com/usablica/widearea/tags" target="_blank">Download</a></li>
+            <li><a href="https://github.com/usablica/widearea" target="_blank">Github</a></li>
+            <li><a href="https://twitter.com/usablica" target="_blank">@usablica</a></li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <p class="lead">Start typing and then click on the top-right icon.</p>
+
+        <div id="widearea-container">
+          <textarea placeholder="Type something..." data-widearea="enable"></textarea>
+        </div>
+
+        <div class="detail-widearea">
+        <h3 style="font-weight: normal;"><strong>Wide</strong>Area?</h3>
+        <p class="lead" style="font-size: 16px;">
+          <strong>Wide</strong>Area is simple and lightweight JavaScript and CSS library (<strong>2KB</strong> JS and <strong>4KB</strong> CSS) which helps you to write better, simpler and faster.
+        </p>
+
+        <h3>How to use?</h3>
+        <p class="lead" style="font-size: 16px;">
+          Really simple. Just include both JavaScript and CSS file and then add <code>data-widearea="enable"</code> attribute to your <code>textarea</code> and then call this JavaScript function in the page: <code>wideArea();</code>
+        </p>
+
+        <h3>License</h3>
+        <p class="lead" style="font-size: 16px;">
+          Free and open-source (including commercial use). Published under MIT license.
+        </p>
+
+      </div>
+
+      </div>
+      <div id="push">
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      wideArea();
+    </script>
+    <div id="footer">
+      <div class="container">
+        <p class="muted credit"><span style='color: rgb(200,50,50);font-weight: bold;'>&lt;3</span>, by <a target="_blank" href="http://twitter.com/afshinmeh">Afshin Mehrabani</a>.</p>
+      </div>
+    </div>
+  </body>
+</html>
