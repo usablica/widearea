@@ -9,6 +9,8 @@ Really simple. Just include both `widearea.js` and `widearea.css` in your page (
 
     wideArea();
 
+See online [demo](http://usablica.github.io/widearea/).
+
 ## API
 
 ###wideArea([selector])
