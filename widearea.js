@@ -71,6 +71,8 @@
       fullscreenIcon.title = this._options.fullScreenIconLabel;
       //hack!
       fullscreenIcon.href = 'javascript:void(0);';
+      // disable dragging. Fixes #3
+      fullscreenIcon.draggable = false;
 
       //bind to click event
       fullscreenIcon.onclick = fullscreenIconClickHandler;
@@ -113,6 +115,7 @@
     closeIcon.href = 'javascript:void(0);';
     closeIcon.className = 'widearea-icon close';
     closeIcon.title = this._options.closeIconLabel;
+    closeIcon.draggable = false;
     closeIcon.onclick = function(){
       _disableFullScreen.call(self);
     };
@@ -122,6 +125,7 @@
     changeThemeIcon.href = 'javascript:void(0);';
     changeThemeIcon.className = 'widearea-icon changeTheme';
     changeThemeIcon.title = this._options.changeThemeIconLabel;
+    changeThemeIcon.draggable = false;
     changeThemeIcon.onclick = function() {
       _toggleColorScheme.call(self);
     };
@@ -200,7 +204,7 @@
     smallTextArea.value = fullscreenTextArea.value;
     
     //reset class for targeted text
-    smallTextArea.className = smallTextArea.classname.replace("widearea-fullscreened ", "");
+    smallTextArea.className = smallTextArea.className.replace("widearea-fullscreened ", "");
 
     //and then remove the overlay layer
     overlayLayer.parentNode.removeChild(overlayLayer);
