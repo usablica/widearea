@@ -98,8 +98,14 @@ Now you can run this command to minify all static resources:
 ## Roadmap
 - More browser compatibility
 - Provide better examples
+- Autosaving
 
 ## Release History
+
+ * **v0.1.1** - 2013-05-26 
+   - Adding tab-key support while typing
+   - Fix some bugs in multiple textareas
+   - Fix bug when textarea has an existing value
 
  * **v0.1.0** - 2013-05-22 
    - First commit. 
