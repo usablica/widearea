@@ -198,6 +198,9 @@
 
     //set fullscreen textarea to small one
     smallTextArea.value = fullscreenTextArea.value;
+    
+    //reset class for targeted text
+    smallTextArea.className = smallTextArea.classname.replace("widearea-fullscreened ", "");
 
     //and then remove the overlay layer
     overlayLayer.parentNode.removeChild(overlayLayer);
