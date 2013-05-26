@@ -1,10 +1,11 @@
 /**
- * WideArea v0.1.0
+ * WideArea v0.1.1
  * https://github.com/usablica/widearea
  * MIT licensed
  *
  * Copyright (C) 2013 usabli.ca - By Afshin Mehrabani (@afshinmeh)
  */
+ /* jshint scripturl: true */
 
 (function (root, factory) {
   if (typeof exports === 'object') {
@@ -19,7 +20,7 @@
   }
 } (this, function (exports) {
   //Default config/variables
-  var VERSION = '0.1.0';
+  var VERSION = '0.1.1';
 
   /**
    * WideArea main class
@@ -48,15 +49,20 @@
    * @method _enable
    */
   function _enable() {
-    var self = this;
+    var self = this,
     //select all textareas in the target element
-    var textAreaList = this._targetElement.querySelectorAll('textarea[' + this._options.wideAreaAttr + '=\'enable\']');
+    textAreaList = this._targetElement.querySelectorAll('textarea[' + this._options.wideAreaAttr + '=\'enable\']'),
+    // don't make functions within a loop.
+    fullscreenIconClickHandler = function() {
+      _enableFullScreen.call(self, this);
+    };
+
     //then, change all textareas to widearea
     for (var i = textAreaList.length - 1; i >= 0; i--) {
       var currentTextArea = textAreaList[i];
       //create widearea wrapper element
       var wideAreaWrapper  = document.createElement('div'),
-          wideAreaIcons    = document.createElement('div')
+          wideAreaIcons    = document.createElement('div'),
           fullscreenIcon   = document.createElement('a');
 
       wideAreaWrapper.className = 'widearea-wrapper';
@@ -67,16 +73,16 @@
       fullscreenIcon.href = 'javascript:void(0);';
 
       //bind to click event
-      fullscreenIcon.onclick = function() {
-        _enableFullScreen.call(self, this);
-      };
+      fullscreenIcon.onclick = fullscreenIconClickHandler;
       //clone current textarea
-      wideAreaWrapper.appendChild(currentTextArea.cloneNode());
+      var newTextArea = currentTextArea.cloneNode();
+      newTextArea.value = currentTextArea.value;
+      wideAreaWrapper.appendChild(newTextArea);
       wideAreaIcons.appendChild(fullscreenIcon);
       wideAreaWrapper.appendChild(wideAreaIcons);
       //add the wrapper to element
       currentTextArea.parentNode.replaceChild(wideAreaWrapper, currentTextArea);
-    };
+    }
   }
 
   /**
@@ -142,9 +148,16 @@
 
     //bind to keydown event
     this._onKeyDown = function(e) {
-      if (e.keyCode === 27 && self._options.exitOnEsc == true) {
+      if (e.keyCode === 27 && self._options.exitOnEsc) {
         //escape key pressed
         _disableFullScreen.call(self);
+      }
+      if (e.keyCode == 9) {
+        // tab key pressed
+        e.preventDefault();
+        var selectionStart = currentTextArea.selectionStart;
+        currentTextArea.value = currentTextArea.value.substring(0, selectionStart) + "\t" + currentTextArea.value.substring(currentTextArea.selectionEnd);
+        currentTextArea.selectionEnd = selectionStart + 1;
       }
     };
     if (window.addEventListener) {
@@ -185,6 +198,9 @@
 
     //set fullscreen textarea to small one
     smallTextArea.value = fullscreenTextArea.value;
+    
+    //reset class for targeted text
+    smallTextArea.className = smallTextArea.className.replace(/widearea-fullscreened/gi, "");
 
     //and then remove the overlay layer
     overlayLayer.parentNode.removeChild(overlayLayer);
@@ -205,9 +221,9 @@
    * @returns obj3 a new object based on obj1 and obj2
    */
   function _mergeOptions(obj1, obj2) {
-    var obj3 = {};
-    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-    for (var attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    var obj3 = {}, attrname;
+    for (attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (attrname in obj2) { obj3[attrname] = obj2[attrname]; }
     return obj3;
   }
 
@@ -246,7 +262,7 @@
     setOptions: function(options) {
       this._options = _mergeOptions(this._options, options);
       return this;
-    },
+    }
   };
 
   exports.wideArea = wideArea;
