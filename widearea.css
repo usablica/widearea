@@ -91,7 +91,8 @@ textarea.widearea-fullscreen {
 
 .widearea-icon {
   height: 16px;
-  width: 16px;
+  width: 17px;
+  background-repeat: no-repeat;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   filter: alpha(opacity=50);
   -khtml-opacity: 0.5;
