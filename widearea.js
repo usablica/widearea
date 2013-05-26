@@ -152,6 +152,13 @@
         //escape key pressed
         _disableFullScreen.call(self);
       }
+      if (e.keyCode == 9) {
+        // tab key pressed
+        e.preventDefault();
+        var s = currentTextArea.selectionStart;
+        currentTextArea.value = currentTextArea.value.substring(0, s) + "\t" + currentTextArea.value.substring(currentTextArea.selectionEnd);
+        currentTextArea.selectionEnd = s + 1;
+      }
     };
     if (window.addEventListener) {
       window.addEventListener('keydown', self._onKeyDown, true);
