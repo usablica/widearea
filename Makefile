@@ -1,6 +1,6 @@
 BASE = .
 
 build:
-	cd BUILD && node BUILD.js
+	jshint widearea.js && cd build && node build.js
 
 .PHONY: build
