@@ -1,15 +1,14 @@
 {
     "name": "WideArea",
     "description": "Create expandable textarea and write large amount of text easily.",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "Afshin Mehrabani <afshin.meh@gmail.com>",
     "repository": {
         "type": "git",
         "url": "https://github.com/usablica/widearea"
     },
     "devDependencies": {
-        "node-minify": "*",
-        "jshint": "*"
+        "node-minify": "*"
     },
     "engine": [
         "node >=0.1.90"

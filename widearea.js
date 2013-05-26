@@ -1,5 +1,5 @@
 /**
- * WideArea v0.1.0
+ * WideArea v0.1.1
  * https://github.com/usablica/widearea
  * MIT licensed
  *
@@ -20,7 +20,7 @@
   }
 } (this, function (exports) {
   //Default config/variables
-  var VERSION = '0.1.0';
+  var VERSION = '0.1.1';
 
   /**
    * WideArea main class
@@ -155,9 +155,9 @@
       if (e.keyCode == 9) {
         // tab key pressed
         e.preventDefault();
-        var s = currentTextArea.selectionStart;
-        currentTextArea.value = currentTextArea.value.substring(0, s) + "\t" + currentTextArea.value.substring(currentTextArea.selectionEnd);
-        currentTextArea.selectionEnd = s + 1;
+        var selectionStart = currentTextArea.selectionStart;
+        currentTextArea.value = currentTextArea.value.substring(0, selectionStart) + "\t" + currentTextArea.value.substring(currentTextArea.selectionEnd);
+        currentTextArea.selectionEnd = selectionStart + 1;
       }
     };
     if (window.addEventListener) {
@@ -200,7 +200,7 @@
     smallTextArea.value = fullscreenTextArea.value;
     
     //reset class for targeted text
-    smallTextArea.className = smallTextArea.classname.replace("widearea-fullscreened ", "");
+    smallTextArea.className = smallTextArea.className.replace(/widearea-fullscreened/gi, "");
 
     //and then remove the overlay layer
     overlayLayer.parentNode.removeChild(overlayLayer);
