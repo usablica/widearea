@@ -1,7 +1,7 @@
 {
     "name": "WideArea",
     "description": "Create expandable textarea and write large amount of text easily.",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "author": "Afshin Mehrabani <afshin.meh@gmail.com>",
     "repository": {
         "type": "git",

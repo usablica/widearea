@@ -1,11 +1,10 @@
 /**
- * WideArea v0.1.1
+ * WideArea v0.1.2
  * https://github.com/usablica/widearea
  * MIT licensed
  *
  * Copyright (C) 2013 usabli.ca - By Afshin Mehrabani (@afshinmeh)
  */
- /* jshint scripturl: true */
 
 (function (root, factory) {
   if (typeof exports === 'object') {
@@ -20,7 +19,7 @@
   }
 } (this, function (exports) {
   //Default config/variables
-  var VERSION = '0.1.1';
+  var VERSION = '0.1.2';
 
   /**
    * WideArea main class
