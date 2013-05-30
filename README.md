@@ -117,6 +117,11 @@ Now you can run this command to minify all static resources:
 - [Github](https://github.com/afshinm)
 - [Personal page](http://afshinm.name/)  
 
+**Ehsan Arasteh**
+
+- [Twitter](https://twitter.com/ehsandotnet)
+- [Github](https://github.com/ehsandotnet)  
+
 ## License
 > Copyright (C) 2012 Afshin Mehrabani (afshin.meh@gmail.com)
 
