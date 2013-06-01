@@ -101,8 +101,8 @@
     var currentTextArea = targetTextarea.cloneNode();
 
     //add proper css class names
-    currentTextArea.className = ('widearea-fullscreen '   + targetTextarea.className).trim();
-    targetTextarea.className  = ('widearea-fullscreened ' + targetTextarea.className).trim();
+    currentTextArea.className = ('widearea-fullscreen '   + targetTextarea.className).replace(/^\s+|\s+$/g, "");
+    targetTextarea.className  = ('widearea-fullscreened ' + targetTextarea.className).replace(/^\s+|\s+$/g, "");
 
     var controlPanel = document.createElement('div');
     controlPanel.className = 'widearea-controlPanel';
