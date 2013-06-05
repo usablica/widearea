@@ -1,5 +1,5 @@
 /**
- * WideArea v0.1.2
+ * WideArea v0.1.3
  * https://github.com/usablica/widearea
  * MIT licensed
  *
@@ -19,7 +19,7 @@
   }
 } (this, function (exports) {
   //Default config/variables
-  var VERSION = '0.1.2';
+  var VERSION = '0.1.3';
 
   /**
    * WideArea main class
@@ -82,6 +82,7 @@
 
       //bind to click event
       fullscreenIcon.onclick = fullscreenIconClickHandler;
+
       //clone current textarea
       var newTextArea = currentTextArea.cloneNode();
       newTextArea.value = currentTextArea.value;
