@@ -68,6 +68,15 @@
       wideAreaIcons.className   = 'widearea-icons';
       fullscreenIcon.className  = 'widearea-icon fullscreen';
       fullscreenIcon.title = this._options.fullScreenIconLabel;
+
+      //set the textarea width/height to WideArea wrapper
+      wideAreaWrapper.style.width = (parseInt(_getPropValue(currentTextArea, "width"))) + 'px';
+      wideAreaWrapper.style.height = _getPropValue(currentTextArea, "height");
+
+      //set width and height to prevent some bugs in Chrome
+      currentTextArea.style.width = _getPropValue(currentTextArea, "width");
+      currentTextArea.style.height = _getPropValue(currentTextArea, "height");
+
       //hack!
       fullscreenIcon.href = 'javascript:void(0);';
 
@@ -81,6 +90,33 @@
       wideAreaWrapper.appendChild(wideAreaIcons);
       //add the wrapper to element
       currentTextArea.parentNode.replaceChild(wideAreaWrapper, currentTextArea);
+    }
+  }
+
+
+  /**
+   * Get an element CSS property on the page
+   * Thanks to JavaScript Kit: http://www.javascriptkit.com/dhtmltutors/dhtmlcascade4.shtml
+   *
+   * @api private
+   * @method _getPropValue
+   * @param {Object} element
+   * @param {String} propName
+   * @returns Element's property value
+   */
+  function _getPropValue (element, propName) {
+    var propValue = '';
+    if (element.currentStyle) { //IE
+      propValue = element.currentStyle[propName];
+    } else if (document.defaultView && document.defaultView.getComputedStyle) { //Others
+      propValue = document.defaultView.getComputedStyle(element, null).getPropertyValue(propName);
+    }
+
+    //Prevent exception in IE
+    if(propValue.toLowerCase) {
+      return propValue.toLowerCase();
+    } else {
+      return propValue;
     }
   }
 

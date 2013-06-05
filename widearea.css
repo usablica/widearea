@@ -51,7 +51,10 @@
 }
 
 .widearea-wrapper textarea {
-  padding-right: 20px;
+  padding-right: 20px !important;
+  -webkit-box-sizing: border-box !important;
+     -moz-box-sizing: border-box !important;
+          box-sizing: border-box !important;
 }
 
 textarea.widearea-fullscreen {
@@ -87,7 +90,7 @@ textarea.widearea-fullscreen {
   position: absolute;
   top: 0;
   right: 0;
-  padding-top: 5px;
+  padding-top: 6px;
   padding-right: 5px;
 }
 
