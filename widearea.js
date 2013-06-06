@@ -237,6 +237,9 @@
       _disableFullScreen.call(self);
     };
 
+    //disable dragging
+    closeIcon.draggable = false;
+
     //create close icon
     var changeThemeIcon = document.createElement('a');
     changeThemeIcon.href = 'javascript:void(0);';
@@ -245,6 +248,9 @@
     changeThemeIcon.onclick = function() {
       _toggleColorScheme.call(self);
     };
+
+    //disable dragging
+    changeThemeIcon.draggable = false;
 
     controlPanel.appendChild(closeIcon);
     controlPanel.appendChild(changeThemeIcon);
