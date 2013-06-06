@@ -1,5 +1,5 @@
 /**
- * WideArea v0.1.3
+ * WideArea v0.2.0
  * https://github.com/usablica/widearea
  * MIT licensed
  *
@@ -19,7 +19,7 @@
   }
 } (this, function (exports) {
   //Default config/variables
-  var VERSION = '0.1.3';
+  var VERSION = '0.2.0';
 
   /**
    * WideArea main class
@@ -28,6 +28,9 @@
    */
   function WideArea(obj) {
     this._targetElement = obj;
+
+    //starts with 1
+    this._wideAreaId = 1;
 
     this._options = {
       wideAreaAttr: 'data-widearea',
@@ -51,10 +54,14 @@
     var self = this,
     //select all textareas in the target element
     textAreaList = this._targetElement.querySelectorAll('textarea[' + this._options.wideAreaAttr + '=\'enable\']'),
+
     // don't make functions within a loop.
     fullscreenIconClickHandler = function() {
       _enableFullScreen.call(self, this);
     };
+
+    //to hold all textareas in the page
+    this._textareas = [];
 
     //then, change all textareas to widearea
     for (var i = textAreaList.length - 1; i >= 0; i--) {
@@ -69,31 +76,105 @@
       fullscreenIcon.className  = 'widearea-icon fullscreen';
       fullscreenIcon.title = this._options.fullScreenIconLabel;
 
-      //set the textarea width/height to WideArea wrapper
-      wideAreaWrapper.style.width = (parseInt(_getPropValue(currentTextArea, "width"))) + 'px';
-      wideAreaWrapper.style.height = _getPropValue(currentTextArea, "height");
-
-      //set width and height to prevent some bugs in Chrome
-      currentTextArea.style.width = _getPropValue(currentTextArea, "width");
-      currentTextArea.style.height = _getPropValue(currentTextArea, "height");
-
       //hack!
       fullscreenIcon.href = 'javascript:void(0);';
+      fullscreenIcon.draggable = false;
 
       //bind to click event
       fullscreenIcon.onclick = fullscreenIconClickHandler;
 
-      //clone current textarea
-      var newTextArea = currentTextArea.cloneNode();
-      newTextArea.value = currentTextArea.value;
-      wideAreaWrapper.appendChild(newTextArea);
+      //add widearea class to textarea
+      currentTextArea.className += (currentTextArea.className + " widearea").replace(/^\s+|\s+$/g, "");
+
+      //set wideArea id and increase the stepper
+      currentTextArea.setAttribute("data-widearea-id", this._wideAreaId);
+      wideAreaIcons.setAttribute("id", "widearea-" + this._wideAreaId);
+      ++this._wideAreaId;
+
+      //set icons panel position
+      _renewIconsPosition(currentTextArea, wideAreaIcons);
+
+      //append all prepared div(s)
       wideAreaIcons.appendChild(fullscreenIcon);
       wideAreaWrapper.appendChild(wideAreaIcons);
-      //add the wrapper to element
-      currentTextArea.parentNode.replaceChild(wideAreaWrapper, currentTextArea);
+
+      //and append it to the page
+      document.body.appendChild(wideAreaWrapper);
+
+      //add the textarea to internal variable
+      this._textareas.push(currentTextArea);
     }
+
+    //set a timer to re-calculate the position of textareas, I don't know whether this is a good approach or not
+    this._timer = setInterval(function() {
+      for (var i = self._textareas.length - 1; i >= 0; i--) {
+        var currentTextArea = self._textareas[i];
+        //get the related icon panel. Using `getElementById` for better performance
+        var wideAreaIcons = document.getElementById("widearea-" + currentTextArea.getAttribute("data-widearea-id"));
+
+        //get old position
+        var oldPosition = _getOffset(wideAreaIcons);
+
+        //get the new element's position
+        var currentTextareaPosition = _getOffset(currentTextArea);
+
+        //only set the new position of old positions changed
+        if((oldPosition.left - currentTextareaPosition.width + 21) != currentTextareaPosition.left || oldPosition.top != currentTextareaPosition.top) {
+          //set icons panel position
+          _renewIconsPosition(currentTextArea, wideAreaIcons, currentTextareaPosition);
+        }
+      };
+    }, 200);
   }
 
+  /**
+   * Set new position to icons panel
+   *
+   * @api private
+   * @method _renewIconsPosition
+   * @param {Object} textarea
+   * @param {Object} iconPanel
+   */
+  function _renewIconsPosition(textarea, iconPanel, textAreaPosition) {
+    var currentTextareaPosition = textAreaPosition || _getOffset(textarea);
+    //set icon panel position
+    iconPanel.style.left = currentTextareaPosition.left + currentTextareaPosition.width - 21 + "px";
+    iconPanel.style.top  = currentTextareaPosition.top + "px";
+  }
+
+  /**
+   * Get an element position on the page
+   * Thanks to `meouw`: http://stackoverflow.com/a/442474/375966
+   *
+   * @api private
+   * @method _getOffset
+   * @param {Object} element
+   * @returns Element's position info
+   */
+  function _getOffset(element) {
+    var elementPosition = {};
+
+    //set width
+    elementPosition.width = element.offsetWidth;
+
+    //set height
+    elementPosition.height = element.offsetHeight;
+
+    //calculate element top and left
+    var _x = 0;
+    var _y = 0;
+    while(element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
+      _x += element.offsetLeft;
+      _y += element.offsetTop;
+      element = element.offsetParent;
+    }
+    //set top
+    elementPosition.top = _y;
+    //set left
+    elementPosition.left = _x;
+
+    return elementPosition;
+  }
 
   /**
    * Get an element CSS property on the page
@@ -131,8 +212,11 @@
   function _enableFullScreen(link) {
     var self = this;
 
+    //first of all, get the textarea id
+    var wideAreaId = parseInt(link.parentNode.id.replace(/widearea\-/, ""));
+
     //I don't know whether is this correct or not, but I think it's not a bad way
-    var targetTextarea = link.parentNode.parentNode.querySelector("textarea");
+    var targetTextarea = document.querySelector("textarea[data-widearea-id='" + wideAreaId + "']");
 
     //clone current textarea
     var currentTextArea = targetTextarea.cloneNode();
@@ -236,7 +320,7 @@
     smallTextArea.value = fullscreenTextArea.value;
     
     //reset class for targeted text
-    smallTextArea.className = smallTextArea.className.replace(/widearea-fullscreened/gi, "");
+    smallTextArea.className = smallTextArea.className.replace(/widearea-fullscreened/gi, "").replace(/^\s+|\s+$/g, "");
 
     //and then remove the overlay layer
     overlayLayer.parentNode.removeChild(overlayLayer);

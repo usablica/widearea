@@ -46,15 +46,8 @@
   color: #eee;
 }
 
-.widearea-wrapper {
-  position: relative;
-}
-
-.widearea-wrapper textarea {
-  padding-right: 20px !important;
-  -webkit-box-sizing: border-box !important;
-     -moz-box-sizing: border-box !important;
-          box-sizing: border-box !important;
+.widearea-wrapper > .widearea-icons {
+  z-index: 999998;
 }
 
 textarea.widearea-fullscreen {
