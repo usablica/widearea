@@ -102,6 +102,11 @@ Now you can run this command to minify all static resources:
 
 ## Release History
 
+ * **v0.2.0** - 2013-06-07 
+   - Basic changes in initiating WideArea
+   - Remove WideArea div wrapper
+   - Code refactoring
+
  * **v0.1.1** - 2013-05-26 
    - Adding tab-key support while typing
    - Fix some bugs in multiple textareas
