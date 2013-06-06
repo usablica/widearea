@@ -46,29 +46,27 @@
   color: #eee;
 }
 
-.widearea-wrapper {
-  position: relative;
-}
-
-.widearea-wrapper textarea {
-  padding-right: 20px;
+.widearea-wrapper > .widearea-icons {
+  z-index: 999998;
 }
 
 textarea.widearea-fullscreen {
-  padding: 20px;
-  padding-top: 30px;
-  border: none;
-  -webkit-box-sizing: border-box;
-     -moz-box-sizing: border-box;
-          box-sizing: border-box;
-  max-width: 900px;
-  height: 100%;
-  margin: 0 auto;
-  display: block;
-  font-size: 20px;
-  box-shadow: none;
-  resize: none;
-  line-height: 1.6em;
+  padding: 20px !important;
+  padding-top: 30px !important;
+  border: none !important;
+  -webkit-box-sizing: border-box !important;
+     -moz-box-sizing: border-box !important;
+          box-sizing: border-box !important;
+  max-width: 900px !important;
+  height: 100% !important;
+  width: 100% !important;
+  outline: none !important;
+  margin: 0 auto !important;
+  display: block !important;
+  font-size: 20px !important;
+  box-shadow: none !important;
+  resize: none !important;
+  line-height: 1.6em !important;
 }
 
 .widearea-controlPanel {
@@ -85,7 +83,7 @@ textarea.widearea-fullscreen {
   position: absolute;
   top: 0;
   right: 0;
-  padding-top: 5px;
+  padding-top: 6px;
   padding-right: 5px;
 }
 
