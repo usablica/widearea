@@ -110,6 +110,7 @@
       } else if (currentTextArea.attachEvent) {//IE hack
         currentTextArea.attachEvent('onpropertychange', save);
       }
+
       //set icons panel position
       _renewIconsPosition(currentTextArea, wideAreaIcons);
 
@@ -145,7 +146,6 @@
       };
     }, 200);
   }
-
 
   /**
    * Set new position to icons panel

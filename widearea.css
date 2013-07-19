@@ -1,3 +1,7 @@
+.widearea {
+  padding-right: 20px;
+}
+
 .widearea-overlayLayer {
   position: fixed;
   top: 0;
@@ -46,12 +50,8 @@
   color: #eee;
 }
 
-.widearea-wrapper {
-  position: relative;
-}
-
-.widearea-wrapper textarea {
-  padding-right: 20px;
+.widearea-wrapper > .widearea-icons {
+  z-index: 999998;
 }
 
 textarea.widearea-fullscreen {
@@ -87,7 +87,7 @@ textarea.widearea-fullscreen {
   position: absolute;
   top: 0;
   right: 0;
-  padding-top: 5px;
+  padding-top: 6px;
   padding-right: 5px;
 }
 
