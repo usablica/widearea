@@ -65,7 +65,6 @@
       //save textarea data in localStorage
       var storage = 'WDATA-' + this.getAttribute('data-widearea-id');
       localStorage.setItem(storage,this.value);
-      console.log(storage + '=' + this.value);
     };
 
     //to hold all textareas in the page
@@ -397,10 +396,6 @@
     }
   };
 
-  var clearData = function(element) {
-    localStorage.remove('WDATA-' + element.getAttribute('data-widearea-id'));
-  }
-
   /**
    * Current WideArea version
    *
@@ -421,10 +416,13 @@
     setOptions: function(options) {
       this._options = _mergeOptions(this._options, options);
       return this;
+    },
+    clearData: function(id){
+      localStorage.removeItem('WDATA-' + id);
+      return this;
     }
   };
 
   exports.wideArea = wideArea;
-  exports.clearData = clearData;
   return wideArea;
 }));
