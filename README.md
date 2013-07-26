@@ -77,6 +77,31 @@ wideArea().setOptions({ defaultColorScheme: "dark", closeIconLabel: "Exit" });
 
 -----
 
+###wideArea.clearData(value)
+
+Clear the textarea value from localStorage
+
+**Available since**: v0.3.0
+
+**Parameters:**
+ - value : Object | String | Number
+   This method accept parameter with different types
+     1. `Object` for clearing data using DOM object
+     2. `String` for clearing data using CSS selector
+     3. `Number` for clearing data using the widearea id
+
+**Returns:**
+ - wideArea object.
+
+**Example:**
+```javascript
+wideArea().clearData(1); //clear textarea data with `data-widearea-id` == 1
+wideArea().clearData("#first"); //clear textarea data with `#first` selector
+wideArea().clearData($("#first")); //get DOM object with jQuery and pass it to clearData()
+````
+
+-----
+
 ###Options:
 
  - `wideAreaAttr`: Extra attribute name for detecting `textarea`s that uses Widearea, default is `data-widearea`
@@ -85,6 +110,7 @@ wideArea().setOptions({ defaultColorScheme: "dark", closeIconLabel: "Exit" });
  - `closeIconLabel`: Close icon label, default is `Close WideArea`.
  - `changeThemeIconLabel`: Change color scheme icon label, default is `Toggle Color Scheme`
  - `fullScreenIconLabel`: Fullscreen mode icon label, default is `WideArea Mode`
+ - `autoSaveKeyPrefix`: Prefix key for localStorage items
 
 
 ## Build
@@ -97,10 +123,14 @@ Now you can run this command to minify all static resources:
 
 ## Roadmap
 - More browser compatibility
-- Provide better examples
-- Autosaving
+- Provide more examples
+- Add templating option
 
 ## Release History
+
+ * **v0.3.0** - 2013-07-26 
+   - Add auto-save option for all textareas
+   - Bug fixes
 
  * **v0.2.0** - 2013-06-07 
    - Basic changes in initiating WideArea
