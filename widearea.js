@@ -1,5 +1,5 @@
 /**
- * WideArea v0.2.0
+ * WideArea v0.3.0
  * https://github.com/usablica/widearea
  * MIT licensed
  *
@@ -19,7 +19,7 @@
   }
 } (this, function (exports) {
   //Default config/variables
-  var VERSION = '0.2.0';
+  var VERSION = '0.3.0';
 
   /**
    * WideArea main class
@@ -38,10 +38,67 @@
       defaultColorScheme: 'light',
       closeIconLabel: 'Close WideArea',
       changeThemeIconLabel: 'Toggle Color Scheme',
-      fullScreenIconLabel: 'WideArea Mode'
+      fullScreenIconLabel: 'WideArea Mode',
+      autoSaveKeyPrefix: 'WDATA-'
     };
 
     _enable.call(this);
+  }
+
+  /**
+   * Save textarea data to storage
+   *
+   * @api private
+   * @method _saveToStorage
+   */
+  function _saveToStorage(id, value) {
+    //save textarea data in localStorage
+    localStorage.setItem(this._options.autoSaveKeyPrefix + id, value);
+  }
+
+  /**
+   * Get data from storage
+   *
+   * @api private
+   * @method _getFromStorage
+   */
+  function _getFromStorage(id) {
+    return localStorage.getItem(this._options.autoSaveKeyPrefix + id);
+  }
+
+  /**
+   * Clear specific textarea data from storage
+   *
+   * @api private
+   * @method _clearStorage
+   */
+  function _clearStorage(value) {
+
+    var currentElement, id;
+    if (typeof(value) == "string") {
+      //with css selector
+      currentElement = this._targetElement.querySelector(value);
+      if (currentElement) {
+        id = parseInt(currentElement.getAttribute("data-widearea-id"));
+      }
+    } else if (typeof(value) == "number") {
+      //first, clear it from storage
+      currentElement = this._targetElement.querySelector('textarea[data-widearea-id="' + value + '"]');
+      id = value;
+    } else if (typeof(value) == "object") {
+      //with DOM
+      currentElement = value;
+
+      if (currentElement) {
+        id = parseInt(currentElement.getAttribute("data-widearea-id"));
+      }
+    }
+
+    //and then, clear the textarea
+    if (currentElement && id) {
+      currentElement.value = '';
+      localStorage.removeItem(this._options.autoSaveKeyPrefix + id);
+    }
   }
 
   /**
@@ -58,13 +115,6 @@
     // don't make functions within a loop.
     fullscreenIconClickHandler = function() {
       _enableFullScreen.call(self, this);
-    };
-
-    //save data
-    save = function(){
-      //save textarea data in localStorage
-      var storage = 'WDATA-' + this.getAttribute('data-widearea-id');
-      localStorage.setItem(storage,this.value);
     };
 
     //to hold all textareas in the page
@@ -96,19 +146,24 @@
       //set wideArea id and increase the stepper
       currentTextArea.setAttribute("data-widearea-id", this._wideAreaId);
       wideAreaIcons.setAttribute("id", "widearea-" + this._wideAreaId);
-      ++this._wideAreaId;
 
       //Autosaving
-      var storage = 'WDATA-' + currentTextArea.getAttribute('data-widearea-id');
-      if(localStorage.getItem(storage)){
-        currentTextArea.value = localStorage.getItem(storage);
+      if (_getFromStorage.call(this, this._wideAreaId)) {
+        currentTextArea.value = _getFromStorage.call(this, this._wideAreaId);
       }
+
+      var onTextChanged = function () {
+        _saveToStorage.call(self, this.getAttribute('data-widearea-id'), this.value);
+      };
       //add textchange listener
       if (currentTextArea.addEventListener) {
-        currentTextArea.addEventListener('input',save, false);
-      } else if (currentTextArea.attachEvent) {//IE hack
-        currentTextArea.attachEvent('onpropertychange', save);
+        currentTextArea.addEventListener('input', onTextChanged, false);
+      } else if (currentTextArea.attachEvent) { //IE hack
+        currentTextArea.attachEvent('onpropertychange', onTextChanged);
       }
+
+      //go to next wideArea
+      ++this._wideAreaId;
 
       //set icons panel position
       _renewIconsPosition(currentTextArea, wideAreaIcons);
@@ -291,13 +346,19 @@
     //set the value of small textarea to fullscreen one
     currentTextArea.value = targetTextarea.value;
 
+    var onTextChanged = function () {
+      _saveToStorage.call(self, this.getAttribute('data-widearea-id'), this.value);
+    };
+    //add textchange listener
+    if (currentTextArea.addEventListener) {
+      currentTextArea.addEventListener('input', onTextChanged, false);
+    } else if (currentTextArea.attachEvent) { //IE hack
+      currentTextArea.attachEvent('onpropertychange', onTextChanged);
+    }
+
     //bind to keydown event
     this._onKeyDown = function(e) {
       if (e.keyCode === 27 && self._options.exitOnEsc) {
-        //save data on localStorage
-        textAreas = document.getElementsByClassName('widearea-fullscreen');
-        var storage = 'WDATA-' + textAreas[0].getAttribute('data-widearea-id');
-        localStorage.setItem(storage,textAreas[0].value);
         //escape key pressed
         _disableFullScreen.call(self);
       }
@@ -342,17 +403,12 @@
     var overlayLayer  = document.querySelector(".widearea-overlayLayer");
     var fullscreenTextArea = overlayLayer.querySelector("textarea");
 
-    //save data on localStorage
-    textAreas = document.getElementsByClassName('widearea-fullscreen');
-    var storage = 'WDATA-' + textAreas[0].getAttribute('data-widearea-id');
-    localStorage.setItem(storage,textAreas[0].value);
-
     //change the focus
     smallTextArea.focus();
 
     //set fullscreen textarea to small one
     smallTextArea.value = fullscreenTextArea.value;
-    
+
     //reset class for targeted text
     smallTextArea.className = smallTextArea.className.replace(/widearea-fullscreened/gi, "").replace(/^\s+|\s+$/g, "");
 
@@ -417,8 +473,8 @@
       this._options = _mergeOptions(this._options, options);
       return this;
     },
-    clearData: function(id){
-      localStorage.removeItem('WDATA-' + id);
+    clearData: function(value) {
+      _clearStorage.call(this, value);
       return this;
     }
   };
