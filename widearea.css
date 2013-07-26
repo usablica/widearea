@@ -1,3 +1,7 @@
+.widearea {
+  padding-right: 25px;
+}
+
 .widearea-overlayLayer {
   position: fixed;
   top: 0;
