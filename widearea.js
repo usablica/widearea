@@ -141,7 +141,7 @@
       fullscreenIcon.onclick = fullscreenIconClickHandler;
 
       //add widearea class to textarea
-      currentTextArea.className += (currentTextArea.className + " widearea").replace(/^\s+|\s+$/g, "");
+      currentTextArea.className = (currentTextArea.className + " widearea").replace(/^\s+|\s+$/g, "");
 
       //set wideArea id and increase the stepper
       currentTextArea.setAttribute("data-widearea-id", this._wideAreaId);
