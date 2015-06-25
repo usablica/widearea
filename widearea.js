@@ -1,5 +1,5 @@
 /**
- * WideArea v0.3.0
+ * WideArea v0.4.0
  * https://github.com/usablica/widearea
  * MIT licensed
  *
@@ -165,114 +165,16 @@
       //go to next wideArea
       ++this._wideAreaId;
 
-      //set icons panel position
-      _renewIconsPosition(currentTextArea, wideAreaIcons);
-
+      // wrap textarea
+      currentTextArea.parentNode.insertBefore(wideAreaWrapper, currentTextArea);
+      wideAreaWrapper.appendChild(currentTextArea);       
+      
       //append all prepared div(s)
       wideAreaIcons.appendChild(fullscreenIcon);
       wideAreaWrapper.appendChild(wideAreaIcons);
 
-      //and append it to the page
-      document.body.appendChild(wideAreaWrapper);
-
       //add the textarea to internal variable
       this._textareas.push(currentTextArea);
-    }
-
-    //set a timer to re-calculate the position of textareas, I don't know whether this is a good approach or not
-    this._timer = setInterval(function() {
-      for (var i = self._textareas.length - 1; i >= 0; i--) {
-        var currentTextArea = self._textareas[i];
-        //get the related icon panel. Using `getElementById` for better performance
-        var wideAreaIcons = document.getElementById("widearea-" + currentTextArea.getAttribute("data-widearea-id"));
-
-        //get old position
-        var oldPosition = _getOffset(wideAreaIcons);
-
-        //get the new element's position
-        var currentTextareaPosition = _getOffset(currentTextArea);
-
-        //only set the new position of old positions changed
-        if((oldPosition.left - currentTextareaPosition.width + 21) != currentTextareaPosition.left || oldPosition.top != currentTextareaPosition.top) {
-          //set icons panel position
-          _renewIconsPosition(currentTextArea, wideAreaIcons, currentTextareaPosition);
-        }
-      };
-    }, 200);
-  }
-
-  /**
-   * Set new position to icons panel
-   *
-   * @api private
-   * @method _renewIconsPosition
-   * @param {Object} textarea
-   * @param {Object} iconPanel
-   */
-  function _renewIconsPosition(textarea, iconPanel, textAreaPosition) {
-    var currentTextareaPosition = textAreaPosition || _getOffset(textarea);
-    //set icon panel position
-    iconPanel.style.left = currentTextareaPosition.left + currentTextareaPosition.width - 21 + "px";
-    iconPanel.style.top  = currentTextareaPosition.top + "px";
-  }
-
-  /**
-   * Get an element position on the page
-   * Thanks to `meouw`: http://stackoverflow.com/a/442474/375966
-   *
-   * @api private
-   * @method _getOffset
-   * @param {Object} element
-   * @returns Element's position info
-   */
-  function _getOffset(element) {
-    var elementPosition = {};
-
-    //set width
-    elementPosition.width = element.offsetWidth;
-
-    //set height
-    elementPosition.height = element.offsetHeight;
-
-    //calculate element top and left
-    var _x = 0;
-    var _y = 0;
-    while(element && !isNaN(element.offsetLeft) && !isNaN(element.offsetTop)) {
-      _x += element.offsetLeft;
-      _y += element.offsetTop;
-      element = element.offsetParent;
-    }
-    //set top
-    elementPosition.top = _y;
-    //set left
-    elementPosition.left = _x;
-
-    return elementPosition;
-  }
-
-  /**
-   * Get an element CSS property on the page
-   * Thanks to JavaScript Kit: http://www.javascriptkit.com/dhtmltutors/dhtmlcascade4.shtml
-   *
-   * @api private
-   * @method _getPropValue
-   * @param {Object} element
-   * @param {String} propName
-   * @returns Element's property value
-   */
-  function _getPropValue (element, propName) {
-    var propValue = '';
-    if (element.currentStyle) { //IE
-      propValue = element.currentStyle[propName];
-    } else if (document.defaultView && document.defaultView.getComputedStyle) { //Others
-      propValue = document.defaultView.getComputedStyle(element, null).getPropertyValue(propName);
-    }
-
-    //Prevent exception in IE
-    if(propValue.toLowerCase) {
-      return propValue.toLowerCase();
-    } else {
-      return propValue;
     }
   }
 
@@ -482,3 +384,4 @@
   exports.wideArea = wideArea;
   return wideArea;
 }));
+
